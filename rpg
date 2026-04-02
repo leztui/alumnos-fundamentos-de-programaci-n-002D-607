@@ -1,0 +1,42 @@
+import random
+
+
+print("BIENVENIDO USUARIO A ESTA AVENTURA RPG")
+print()
+print("para empezar con esta aventura enfrentaras al jefe final por saltarte")
+print("todos los dialogos del juego")
+print() 
+print(" QUE COMIENZE LA BATALLA")
+vida_jefe = 1000
+print() 
+vida_jugador = 1000
+jugando = True
+
+while vida_jefe > 0 and vida_jugador > 0: 
+    print(f" vida_jugador={vida_jugador}")
+    print(f" vida_jefe={vida_jefe}") 
+    print("1. Atacar")
+    print("2. Defender")    
+    opcion = input("Elige tu accion: ")
+    if opcion == "1":
+        print(" que ataque deseas realizar")
+        print("1. Golpe basico -100 de daño")   
+        print("2. Golpe fuerte -200 de daño")
+        ataque = input("Elige tu ataque: ")
+        if ataque == "1":
+            vida_jefe -= 100
+            print("ATACASTE AL JEFE Y LE BAJASTE -100 DE VIDA")
+        elif ataque == "2":
+            vida_jefe -= 200
+            print("ATACASTE AL JEFE Y LE BAJASTE -200 DE VIDA")
+        if vida_jefe <= 0:
+            vida_jefe = 0
+            print("El jefe ha sido vencido, ¡FELICIDADES USUARIO!")
+    elif opcion == "2":
+        print("intentas defenderte del ataque del jefe")
+        suerte = random.randint(1, 10)
+        if suerte <= 3:
+         print("El jefe te ataco y no logras defenderte")  
+         vida_jugador -= 50
+        else:
+         print("Te defendiste con exito y no perdiste vida")
