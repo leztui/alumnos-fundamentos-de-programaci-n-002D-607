@@ -1,0 +1,34 @@
+while True:
+    try:
+        n_tecnicos = int(input("Ingrese la cantidad de técnicos a registrar: "))
+        if n_tecnicos > 0:
+            break
+        print("Error: La cantidad debe ser un entero positivo.")
+    except ValueError:
+        print("Error: Ingrese un número entero válido.")
+
+maestros = 0
+operarios = 0
+
+for i in range(n_tecnicos):
+    while True:
+        codigo = input(f"Ingrese el código del técnico {i+1}: ")
+        if len(codigo) >= 6 and " " not in codigo:
+            break
+        print("Error: El código debe tener al menos 6 caracteres y no contener espacios.")
+        
+    while True:
+        try:
+            experiencia = int(input(f"Ingrese los años de experiencia del técnico {i+1}: "))
+            if experiencia >= 0:
+                break
+            print("Error: Los años de experiencia deben ser un número positivo.")
+        except ValueError:
+            print("Error: Ingrese un número entero válido.")
+            
+    if experiencia > 10:
+        maestros += 1
+    else:
+        operarios += 1
+
+print(f"\nLa planta cuenta con {maestros} Técnicos Maestros y {operarios} Técnicos Operarios. Sistema listo.")
