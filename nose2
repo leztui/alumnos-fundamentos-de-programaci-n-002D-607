@@ -6,13 +6,10 @@ import com.hachimakidev.automarket.model.Vehiculo;
 import com.hachimakidev.automarket.model.VehiculoManager;
 
 public class VehiculoController {
-    
     private VehiculoManager manager = new VehiculoManager();
-    
     public ArrayList<Vehiculo> obtenerVehiculos(){
         return manager.getVehiculos();
     }
-    
     public void agregarVehiculo(Vehiculo nuevo){
         manager.agregarVehiculo(nuevo);
     } 
