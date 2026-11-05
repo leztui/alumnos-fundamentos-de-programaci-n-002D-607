@@ -1,0 +1,81 @@
+package com.hachimakidev.automarket.view;
+
+import com.hachimakidev.automarket.controller.VehiculoController;
+import com.hachimakidev.automarket.model.Vehiculo;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+public class CatalogoView {
+
+    // Instanciamos el controlador[cite: 10]
+    VehiculoController controller = new VehiculoController();
+
+    public VBox catalogo() {
+        Label lbl_titulo = new Label("Catálogo de Automóviles y Motocicletas");
+        
+        TableView<Vehiculo> tabla = new TableView<>();
+        
+        TableColumn<Vehiculo, Integer> col1 = new TableColumn<>("ID");
+        col1.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<Vehiculo, String> col2 = new TableColumn<>("Marca");
+        col2.setCellValueFactory(new PropertyValueFactory<>("marca"));
+
+        TableColumn<Vehiculo, String> col3 = new TableColumn<>("Modelo");
+        col3.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+
+        TableColumn<Vehiculo, Integer> col4 = new TableColumn<>("Precio");
+        col4.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        
+        // Profe, me faltaron columnas porque no supe cómo sacar los datos de las clases hijas aún
+        tabla.getColumns().addAll(col1, col2, col3, col4);
+        
+        ObservableList<Vehiculo> lista = FXCollections.observableArrayList(controller.obtenerVehiculos());
+        tabla.setItems(lista);
+
+        Label formTitulo = new Label("Registrar nuevo vehículo:");
+        
+        ComboBox<String> cbTipo = new ComboBox<>();
+        cbTipo.getItems().addAll("Automovil", "Motocicleta");
+        cbTipo.setPromptText("Tipo");
+        
+        TextField txtMarca = new TextField();
+        txtMarca.setPromptText("Marca");
+        
+        TextField textModelo = new TextField();
+        textModelo.setPromptText("Modelo");
+        
+        // Fila sin espaciado perfecto
+        HBox fila1 = new HBox();
+        fila1.getChildren().addAll(cbTipo, txtMarca, textModelo);
+
+        TextField txt_precio = new TextField();
+        txt_precio.setPromptText("Precio");
+        HBox fila2 = new HBox(txt_precio);
+
+        TextField txtAtr1 = new TextField();
+        txtAtr1.setPromptText("Atributo 1");
+        
+        TextField txtAtr2 = new TextField();
+        txtAtr2.setPromptText("Atributo 2");
+        
+        HBox fila3 = new HBox(txtAtr1, txtAtr2);
+
+        Button btn_agregar = new Button("Agregar Vehículo");
+
+        VBox form = new VBox();
+        // El formulario está todo apilado sin mucho margen
+        form.getChildren().addAll(formTitulo, fila1, fila2, fila3, btn_agregar);
+
+        VBox layout_principal = new VBox();
+        layout_principal.setPadding(new Insets(15));
+        layout_principal.getChildren().addAll(lbl_titulo, tabla, form);
+
+        return layout_principal;
+    }
+}
