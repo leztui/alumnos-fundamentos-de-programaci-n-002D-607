@@ -1,0 +1,69 @@
+package com.hachimakidev.automarket.model;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+public class VehiculoManager {
+    
+    private ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+
+    public VehiculoManager(){
+        cargarDatos();
+    }
+
+    public void cargarDatos(){
+        InputStream stream = getClass().getResourceAsStream("/vehiculos.json");
+        if (stream == null) {
+            throw new IllegalStateException("El archivo /vehiculos.json no se ha encontrado");
+        }
+        
+        Gson gson = new Gson();
+        
+        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+        JsonObject[] arregloGson = gson.fromJson(reader, JsonObject[].class);
+        
+        for (JsonObject i : arregloGson) {
+            String tipo = i.get("tipo").getAsString().toLowerCase(); // Convertimos a minúscula para evitar errores
+            switch (tipo) {
+                case "automovil":
+                    Automovil automovil = gson.fromJson(i, Automovil.class);
+                    if (!esValido(automovil)) {
+                        throw new IllegalArgumentException("Automóvil inválido ID=" + automovil.getId());
+                    }
+                    vehiculos.add(automovil);
+                    break;
+                case "motocicleta":
+                    Motocicleta motocicleta = gson.fromJson(i, Motocicleta.class);
+                    if(!esValido(motocicleta)){
+                        throw new IllegalArgumentException("Motocicleta inválida ID=" + motocicleta.getId());
+                    }
+                    vehiculos.add(motocicleta);
+                    break;
+                default:
+                    System.out.println("Tipo de vehículo desconocido: " + tipo);
+                    break;
+            }
+        }
+    }
+    
+    // Cambiamos 'Dispositivo' por 'Vehiculo'
+    private boolean esValido(Vehiculo v){
+        return v != null && v.getPrecio() > 0;
+    }
+    
+    public ArrayList<Vehiculo> getVehiculos(){
+        return vehiculos;
+    }
+    
+    public void agregarVehiculo(Vehiculo nuevo){
+        if (!esValido(nuevo)) {
+            throw new IllegalArgumentException("Vehículo inválido. Revisa el precio.");
+        }
+        vehiculos.add(nuevo);
+    }
+}
